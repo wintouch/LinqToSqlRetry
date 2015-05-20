@@ -81,9 +81,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LinqToSqlRetry\LinqToSqlRetry.csproj">
+    <ProjectReference Include="..\LinqToSqlRetry\RetryLogic.csproj">
       <Project>{c05470bd-a511-4abf-a04c-da10e3cf5d54}</Project>
-      <Name>LinqToSqlRetry</Name>
+      <Name>RetryLogic</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

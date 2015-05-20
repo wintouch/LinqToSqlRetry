@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace LinqToSqlRetry
+namespace RetryLogic
 {
     public static class RetryExtensions
     {

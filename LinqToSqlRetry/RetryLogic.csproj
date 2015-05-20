@@ -7,8 +7,8 @@
     <ProjectGuid>{C05470BD-A511-4ABF-A04C-DA10E3CF5D54}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LinqToSqlRetry</RootNamespace>
-    <AssemblyName>LinqToSqlRetry</AssemblyName>
+    <RootNamespace>RetryLogic</RootNamespace>
+    <AssemblyName>RetryLogic</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

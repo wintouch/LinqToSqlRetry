@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LinqToSqlRetry
+namespace RetryLogic
 {
     public class LinearRetry : IRetryPolicy
     {
-        private static readonly TimeSpan DefaultInterval = TimeSpan.FromSeconds(10);
+        private static readonly TimeSpan DefaultInterval = TimeSpan.FromSeconds(2);
         private const int DefaultRetryCount = 3;
 
         // From http://social.technet.microsoft.com/wiki/contents/articles/1541.windows-azure-sql-database-connection-management.aspx with some extras

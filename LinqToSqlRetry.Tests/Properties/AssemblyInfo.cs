@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("LinqToSqlRetry.Tests")]
+[assembly: AssemblyTitle("RetryLogic.Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("LinqToSqlRetry.Tests")]
+[assembly: AssemblyProduct("RetryLogic.Tests")]
 [assembly: AssemblyCopyright("Copyright © Dave Glick")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

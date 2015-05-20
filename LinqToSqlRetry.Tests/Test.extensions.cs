@@ -1,7 +1,7 @@
 ﻿// From https://github.com/lukesampson/LinqToSQL-test-extensions/ with modifications
 
 // 
-// Auto-generated from E:\Code\LinqToSqlRetry\LinqToSqlRetry.Tests\Test.dbml
+// Auto-generated from E:\Code\RetryLogic\RetryLogic.Tests\Test.dbml
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.ComponentModel;
 
-namespace LinqToSqlRetry.Tests {
+namespace RetryLogic.Tests {
 
 	#region ITestDataContext
 	public interface ITestDataContext : IDisposable {

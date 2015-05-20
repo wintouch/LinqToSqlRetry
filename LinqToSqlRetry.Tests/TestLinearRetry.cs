@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LinqToSqlRetry.Tests
+namespace RetryLogic.Tests
 {
     public class TestLinearRetry : LinearRetry
     {
