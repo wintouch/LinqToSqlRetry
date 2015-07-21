@@ -59,11 +59,20 @@ namespace RetryLogic
         public virtual TimeSpan? ShouldRetry(int retryCount, Exception exception)
         {
             SqlException sqlException = exception as SqlException;
-            return sqlException != null 
-                && _transientErrors.Contains(sqlException.Number) 
-                && retryCount < _retryCount 
-                ? (TimeSpan?)_initialInterval.Add(TimeSpan.FromMilliseconds(_intervalDelta.TotalMilliseconds * retryCount)) 
-                : null;
+
+            if (sqlException == null)
+            {
+                return retryCount < _retryCount ? computeTimeSpan(retryCount) : null;
+            }
+            else
+            {
+                return _transientErrors.Contains(sqlException.Number) && retryCount < _retryCount ? computeTimeSpan(retryCount) : null;
+            }
+        }
+
+        private TimeSpan? computeTimeSpan(int retryCount)
+        {
+            return _initialInterval.Add(TimeSpan.FromMilliseconds(_intervalDelta.TotalMilliseconds * retryCount));
         }
     }
 }
