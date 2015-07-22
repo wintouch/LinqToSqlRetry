@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RetryLogic.RetryPolicies;
+using System;
 using System.Collections.Generic;
 using System.Data.Linq;
 using System.Linq;
@@ -58,11 +59,15 @@ namespace RetryLogic
                 catch (Exception ex)
                 {
                     TimeSpan? interval = retryPolicy.ShouldRetry(retryCount, ex);
-                    if (!interval.HasValue)
+                    if (interval.HasValue)
+                    { 
+                        Thread.Sleep(interval.Value); 
+                    } 
+                    else
                     {
                         throw;
                     }
-                    Thread.Sleep(interval.Value);
+                    
                 }
                 retryCount++;
             }

@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RetryLogic
+namespace RetryLogic.RetryPolicies
 {
-    public class LinearRetry : IRetryPolicy
+    public abstract class SqlServerRetryPolicies : IRetryPolicy
     {
-        private static readonly TimeSpan DefaultInterval = TimeSpan.FromSeconds(2);
-        private const int DefaultRetryCount = 3;
 
         // From http://social.technet.microsoft.com/wiki/contents/articles/1541.windows-azure-sql-database-connection-management.aspx with some extras
-        internal static readonly int[] DefaultTransientErrors =
+        protected internal static readonly int[] DefaultTransientErrors =
         {
             -2,
             // Timeout expired. The timeout period elapsed prior to completion of the operation or the server is not responding.
@@ -38,50 +35,7 @@ namespace RetryLogic
             40613 // Database ... is not currently available.
         };
 
-        private readonly TimeSpan _interval;
-        private readonly int _retryCount;
-        private readonly int[] _transientErrors;
+        public abstract TimeSpan? ShouldRetry(int retryCount, Exception exception);
 
-        public LinearRetry()
-            : this(DefaultInterval, DefaultRetryCount)
-        {
-        }
-
-        public LinearRetry(TimeSpan interval, int retryCount)
-            : this(interval, retryCount, DefaultTransientErrors)
-        {
-        }
-
-        public LinearRetry(TimeSpan interval, int retryCount, int[] transientErrors)
-        {
-            _interval = interval;
-            _retryCount = retryCount;
-            _transientErrors = transientErrors;
-        }
-
-        public TimeSpan Interval
-        {
-            get {  return _interval; }
-        }
-
-        public int RetryCount
-        {
-            get {  return _retryCount; }
-        }
-
-        public int[] TransientErrors
-        {
-            get {  return _transientErrors; }
-        }
-
-        public virtual TimeSpan? ShouldRetry(int retryCount, Exception exception)
-        {
-            SqlException sqlException = exception as SqlException;
-            return sqlException != null 
-                && _transientErrors.Contains(sqlException.Number) 
-                && retryCount < _retryCount 
-                ? (TimeSpan?)_interval 
-                : null;
-        }
     }
 }
