@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RetryLogic
+namespace RetryLogic.RetryPolicies
 {
     public class ExponentialRetry : IRetryPolicy
     {
@@ -13,66 +12,21 @@ namespace RetryLogic
         private static readonly TimeSpan DefaultIntervalDelta = TimeSpan.FromSeconds(5);
         private const int DefaultRetryCount = 3;
 
-        private readonly TimeSpan _initialInterval;
-        private readonly TimeSpan _intervalDelta;
-        private readonly int _retryCount;
-        private readonly int[] _transientErrors;
-
         public ExponentialRetry()
-            : this(DefaultInitialInterval, DefaultIntervalDelta, DefaultRetryCount)
         {
+            InitialInterval = DefaultInitialInterval;
+            IntervalDelta = DefaultIntervalDelta;
+            RetryCount = DefaultRetryCount;
         }
 
-        public ExponentialRetry(TimeSpan initialInterval, TimeSpan intervalDelta, int retryCount)
-            : this(initialInterval, intervalDelta, retryCount, LinearRetry.DefaultTransientErrors)
-        {
-        }
+        public TimeSpan InitialInterval { get; set; }
+        public TimeSpan IntervalDelta { get; set; }
+        public int RetryCount { get; set; }
 
-        public ExponentialRetry(TimeSpan initialInterval, TimeSpan intervalDelta, int retryCount, int[] transientErrors)
-        {
-            _initialInterval = initialInterval;
-            _intervalDelta = intervalDelta;
-            _retryCount = retryCount;
-            _transientErrors = transientErrors;
-        }
-
-        public TimeSpan InitialInterval
-        {
-            get { return _initialInterval; }
-        }
-
-        public TimeSpan IntervalDelta
-        {
-            get { return _intervalDelta; }
-        }
-
-        public int RetryCount
-        {
-            get { return _retryCount; }
-        }
-
-        public int[] TransientErrors
-        {
-            get { return _transientErrors; }
-        }
 
         public virtual TimeSpan? ShouldRetry(int retryCount, Exception exception)
         {
-            SqlException sqlException = exception as SqlException;
-
-            if (sqlException == null)
-            {
-                return retryCount < _retryCount ? computeTimeSpan(retryCount) : null;
-            }
-            else
-            {
-                return _transientErrors.Contains(sqlException.Number) && retryCount < _retryCount ? computeTimeSpan(retryCount) : null;
-            }
-        }
-
-        private TimeSpan? computeTimeSpan(int retryCount)
-        {
-            return _initialInterval.Add(TimeSpan.FromMilliseconds(_intervalDelta.TotalMilliseconds * retryCount));
+            return retryCount < RetryCount ? (TimeSpan?)InitialInterval.Add(TimeSpan.FromMilliseconds(IntervalDelta.TotalMilliseconds * retryCount)) : null;
         }
     }
 }
