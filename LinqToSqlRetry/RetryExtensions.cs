@@ -37,6 +37,16 @@ namespace RetryLogic
             retryPolicy.Retry(() => dataContext.SubmitChanges());
         }
 
+        public static void ExecuteCommandRetry(this DataContext dataContext, string command, params object[] parameters)
+        {
+            ExecuteCommandRetry(dataContext, new LinearRetry(), command, parameters);
+        }
+
+        public static void ExecuteCommandRetry(this DataContext dataContext, IRetryPolicy retryPolicy, string command, params object[] parameters)
+        {
+            retryPolicy.Retry(() => dataContext.ExecuteCommand(command,parameters));
+        }
+
         public static void SubmitChangesRetry(this DataContext dataContext, ConflictMode failureMode, IRetryPolicy retryPolicy)
         {
             retryPolicy.Retry(() => dataContext.SubmitChanges(failureMode));
